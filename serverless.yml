@@ -16,10 +16,65 @@ provider:
   stage: prod
   region: us-east-1
 
+  environment:
+    tableName: notes
+
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Scan
+        - dynamodb:Query
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+        - dynamodb:DescribeTable
+      Resource: "arn:aws:dynamodb:us-east-1:*:*"
+
+
 functions:
-  hello:
-    handler: handler.hello
+  create:
+    handler: create.main
     events:
       - http:
-          path: hello
+          path: notes
+          method: post
+  get:
+    # Defines an HTTP API endpoint that calls the main function in get.js
+    # - path: url path is /notes/{id}
+    # - method: GET request
+    handler: get.main
+    events:
+      - http:
+          path: notes/{id}
           method: get
+
+  list:
+    # Defines an HTTP API endpoint that calls the main function in list.js
+    # - path: url path is /notes
+    # - method: GET request
+    handler: list.main
+    events:
+      - http:
+          path: notes
+          method: get
+
+  update:
+    # Defines an HTTP API endpoint that calls the main function in update.js
+    # - path: url path is /notes/{id}
+    # - method: PUT request
+    handler: update.main
+    events:
+      - http:
+          path: notes/{id}
+          method: put
+
+  delete:
+    # Defines an HTTP API endpoint that calls the main function in delete.js
+    # - path: url path is /notes/{id}
+    # - method: DELETE request
+    handler: delete.main
+    events:
+      - http:
+          path: notes/{id}
+          method: delete
