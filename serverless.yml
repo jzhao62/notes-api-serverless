@@ -40,6 +40,7 @@ functions:
       - http:
           path: notes
           method: post
+          cors: true
           authorizer: aws_iam
 
   get:
@@ -51,6 +52,7 @@ functions:
       - http:
           path: notes/{id}
           method: get
+          cors: true
           authorizer: aws_iam
 
 
@@ -63,6 +65,7 @@ functions:
       - http:
           path: notes
           method: get
+          cors: true
           authorizer: aws_iam
 
 
@@ -75,6 +78,7 @@ functions:
       - http:
           path: notes/{id}
           method: put
+          cors: true
           authorizer: aws_iam
 
 
@@ -87,6 +91,7 @@ functions:
       - http:
           path: notes/{id}
           method: delete
+          cors: true
           authorizer: aws_iam
 
   billing:
@@ -98,7 +103,14 @@ functions:
       - http:
           path: billing
           method: post
+          cors: true
           authorizer: aws_iam
+
+
+resources:
+  - ${file(resources/api-gateway-errors.yml)}
+
+
 
 
 
